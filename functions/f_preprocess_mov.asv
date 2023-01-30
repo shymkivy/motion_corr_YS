@@ -266,7 +266,6 @@ if ~exist([save_dir_movie '\ave_proj'], 'dir'); mkdir([save_dir_movie '\ave_proj
 colors1 = parula(params.num_planes);
 proc_steps = '_cut';
 
-% maybe broken let me know
 moco_image_target = cell(num_planes,1);
 fpath1 = [save_dir_cuts '\' params_moco.im_target_fname];
 if ~isempty(params_moco.im_target_fname)
@@ -305,10 +304,14 @@ if ~isempty(params_moco.im_target_fname)
             if exist(cuts_target_fname, 'file')
                 moco_init_load = load(cuts_target_fname);
                 for n_pl = 1:num_planes
+                    cuts_target_fname = [save_dir_cuts '\' params_moco.im_target_fname '_h5cutsdata.mat'];
+
                     if ~isempty(moco_init_load.cuts_data{n_pl}.image_target)
-                        moco_image_target{n_pl} = moco_init_load.cuts_data{n_pl}.image_target;
-                    else
-                        warning("specified im_target_fname cuts mat file has no target image");
+                        moco_image_target
+                        cuts_data{n_pl}.image_target_external = moco_init_load.cuts_data{n_pl}.image_target;
+                    end
+                    if exist(cuts_target_fname, 'file')
+                        
                     end
                 end
             else
@@ -548,9 +551,11 @@ if do_moco
     ds_base_all = zeros(num_planes, 2);
     for n_pl = 1:num_planes
         cuts_data{n_pl}.ds_base = [0 0];
-        if ~isempty(moco_image_target{n_pl})
-            cuts_data{n_pl}.image_target_external = moco_image_target{n_pl};
-            cuts_data{n_pl}.ds_base = f_suite2p_reg_compute(cuts_data{n_pl}.image_target, cuts_data{n_pl}.image_target_external, params_moco.reg_lambda_base);
+        if ~isempty(params_moco.im_target_fname)
+            if ~isempty(moco_image_target{n_pl})
+                cuts_data{n_pl}.image_target_external = moco_image_target{n_pl};
+                cuts_data{n_pl}.ds_base = f_suite2p_reg_compute(cuts_data{n_pl}.image_target, cuts_data{n_pl}.image_target_external, params_moco.reg_lambda_base);
+            end
         end
         ds_base_all(n_pl, :) = cuts_data{n_pl}.ds_base;
     end

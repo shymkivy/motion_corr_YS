@@ -1,7 +1,9 @@
 # motion_corr_YS
 movie preprocessing
 
-used motion correction and bidi shifts fix shifts from suite2p matlab repository as starting point, and to work better with noisy movies
+use "preprocess_mov.m" for processing
+
+used motion correction and bidi shifts fix shifts from suite2p matlab repository as starting point, and tuned to work better with noisy movies and my datasets
   https://github.com/cortex-lab/Suite2P
 
 bidi changes, for large shifts

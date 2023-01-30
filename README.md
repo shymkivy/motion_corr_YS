@@ -2,12 +2,12 @@
 
 for movie preprocessing
 
-use "preprocess_mov.m" for processing
+Use "preprocess_mov.m"
 
-used motion correction and bidi shifts fix shifts from suite2p matlab repository as starting point, and tuned to work better with noisy movies and my datasets
+Used motion correction and bidi shifts fix shifts from suite2p matlab repository as starting point, and tuned to work better with noisy movies and my datasets
 * https://github.com/cortex-lab/Suite2P
 
-bidi changes, for large shifts
+Bdi changes, for large shifts
 * transform the image with interpolation into shifted sinusoidally transformed coordinate system, since res galvo scans sinusoidally (required for large shifts)
 
 Moco changes, to work with noisy movies

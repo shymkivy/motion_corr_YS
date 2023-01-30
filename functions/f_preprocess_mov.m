@@ -206,6 +206,10 @@ elseif params.moco_rigid_method == 32 % even more super noisy; dream/chrmine
                               2 .2;...
                               2 .5;...
                               2 .5];
+elseif params.moco_rigid_method == 0 % no iterations
+    params_moco.num_iterations = 1;
+    params_moco.smooth_std = [0.5 0.5 0.5];
+    params_moco.reg_lambda = [2 .5];
 end
 
 % list of nonrigid methods                                     

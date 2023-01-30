@@ -3,7 +3,6 @@
 %   This pipeline uses an excel file input that contains a list of files
 %   and params
 %
-%
 %   Workflow
 %       Load movie, 3 options
 %           1: Prairie tiffs

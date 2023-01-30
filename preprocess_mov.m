@@ -35,6 +35,8 @@ params.do_moco = 1;
 params.do_bidi = 0;
 params.align_pulse_crop_method = 0;
 
+params.moco_rigid_method = 1; % 0=one iteration method; other are described inside f_preprocess_mov.m
+
 %%
 f_preprocess_mov(params);
 

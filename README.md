@@ -7,7 +7,7 @@ Use "preprocess_mov.m"
 Used motion correction and bidi shifts fix shifts from suite2p matlab repository as starting point, and tuned to work better with noisy movies and my datasets
 * https://github.com/cortex-lab/Suite2P
 
-Bdi changes, for large shifts
+Bidi changes, for large shifts
 * transform the image with interpolation into shifted sinusoidally transformed coordinate system, since res galvo scans sinusoidally (required for large shifts)
 
 Moco changes, to work with noisy movies

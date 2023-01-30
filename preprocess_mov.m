@@ -27,7 +27,7 @@ params.save_dir = 'F:\AC_data\caiman_data_missmatch';
 params.load_fname = 'A2_ammn-001';  % can be a dir if is a Prairie list of tiffs
 params.save_fname = 'M8_im1_A2_ammn1_5_21_20';
 
-params.im_target_fname = ''; % cuts mat file with target for moco, string or cell of strings
+params.im_target_fname = ''; % cuts mat file with target for moco, string or cell of strings, or *_h5cutsdata.mat file
 
 params.num_planes = 1; % enter number of planes
 

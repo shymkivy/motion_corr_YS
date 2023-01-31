@@ -12,6 +12,6 @@ Bidi changes, for large shifts
 
 Moco changes, to work with noisy movies
 * created an iterative process, where first iterations are done with large xyz smoothing, iteratively applied and slowly reduced
-* added regularization to both steps of smoothing, to penalize large shifts
+* added regularization to both steps of motion correction, to penalize large shifts
 * added cap on high signal pixels, to prevent large correlation values from single bright sources
 * Nonrigid still not optimized, so only use rigid

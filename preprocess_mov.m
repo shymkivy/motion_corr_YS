@@ -21,11 +21,11 @@ addpath([pwd2 '\functions']);
 
 %%
 
-params.load_dir = 'D:\data\AC\2p\2020\M8_5_21_20_missmatch';  % 
+params.load_dir = 'F:\AC_data\caiman_data_missmatch\movies';  % 
 params.save_dir = 'F:\AC_data\caiman_data_missmatch';
 
-params.load_fname = 'A2_ammn-001';  % can be a dir if is a Prairie list of tiffs
-params.save_fname = 'M8_im1_A2_ammn1_5_21_20';
+params.load_fname = 'M10_im1_A2_ammn1_5_31_20_cut_5000.h5';  % can be a dir if is a Prairie list of tiffs
+params.fname = 'M8_im1_A2_ammn1_5_21_20';
 
 params.im_target_fname = ''; % cuts mat file with target for moco, string or cell of strings, or *_h5cutsdata.mat file
 

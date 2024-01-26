@@ -4,7 +4,7 @@ if ~isfield(params, 'nonrigid_block_size'); params.nonrigid_block_size = 60; end
 if ~isfield(params, 'nonrigid_block_overlap'); params.nonrigid_block_overlap = 40; end
 if ~isfield(params, 'nonrigid_block_smooth'); params.nonrigid_block_smooth = [1, 1, 1]; end
 if ~isfield(params, 'nonrigid_smooth_std'); params.nonrigid_smooth_std = [.5 .5 3]; end
-if ~isfield(params, 'nonrigid_reg_lambda'); params.nonrigid_reg_lambda = [2 .5]; end
+if ~isfield(params, 'nonrigid_reg_lambda'); params.nonrigid_reg_lambda = 2; end
 if ~isfield(params, 'high_val_cut_thresh'); params.high_val_cut_thresh = 0; end
 if ~isfield(params, 'high_val_cut_per_frame'); params.high_val_cut_per_frame = 1; end
 
@@ -31,7 +31,7 @@ T = size(Y,3);
 mc_out.out_frame = mean(Y,3);
 
 params_nrcorr.target_frame = mc_out.out_frame;
-params_nrcorr.reg_lambda = params.nonrigid_reg_lambda;
+params_nrcorr.reg_lambda = params.nonrigid_reg_lambda(1);
 params_nrcorr.nonrigid_block_size = params.nonrigid_block_size;
 params_nrcorr.nonrigid_block_overlap = params.nonrigid_block_overlap;
 params_nrcorr.nonrigid_block_smooth = params.nonrigid_block_smooth;

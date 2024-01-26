@@ -29,7 +29,8 @@ for i = 1:numel(ops.planesToProcess)
         % align all loaded frames to target image of current plane
         % (get registration offsets)
         if ops.kriging
-            [ds, Corr]  = regoffKriging_YS(dat, ops1{i,l}, 0);
+            [ds, Corr, Corr_z]  = regoffKriging_YS2(dat, ops1{i,l}, 0);
+            ops1{i,l}.Corr_z   = cat(1, ops1{i,l}.Corr_z, Corr_z);
         else
             [ds, Corr]  = regoffLinear(dat, ops1{i,l}, 0);
         end

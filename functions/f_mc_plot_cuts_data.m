@@ -4,7 +4,7 @@ num_planes = numel(cuts_data);
 num_it = numel(cuts_data{1}.dsall);
 colors1 = parula(num_planes);
 
-[dsall1, dsall1_all, dsall1_all_mf] = f_mc_dsall_proc(cuts_data);
+[dsall1, dsall1_all] = f_mc_dsall_proc(cuts_data, 0);
 
 it_disp = zeros(num_it,num_planes);
 figure; hold on;
@@ -33,22 +33,30 @@ for n_pl = 1:num_planes
 end
 
 figure;
-sp1 = subplot(2,1,1); hold on;
+sp1 = subplot(3,1,1); hold on;
 for n_pl = 1:num_planes
     plot(dsall1{n_pl}(:,1), 'color', colors1(n_pl,:));
 end
 plot(dsall1_all(:,1), 'k');
-plot(dsall1_all_mf(:,1), 'g');
+%plot(dsall1_all_mf(:,1), 'g');
 ylabel('y motion');
 title(sprintf('%s moco',title_tag), 'interpreter', 'none');
-sp2 = subplot(2,1,2); hold on;
+sp2 = subplot(3,1,2); hold on;
 for n_pl = 1:num_planes
     plot(dsall1{n_pl}(:,2), 'color', colors1(n_pl,:));
 end
 plot(dsall1_all(:,2), 'k');
-plot(dsall1_all_mf(:,2), 'g');
-ylabel('x motion');
-linkaxes([sp1 sp2], 'x');  axis tight;
+sp3 = subplot(3,1,3); hold on;
+if ~isempty(cuts_data{1}.corr_all_z{end})
+    plot(cuts_data{1}.corr_all_z{end}, 'k');
+    ylabel('corr z');
+else
+    plot(cuts_data{1}.corr_all{end}, 'k');
+    ylabel('corr');
+end
+%plot(dsall1_all_mf(:,2), 'g');
+
+linkaxes([sp1 sp2 sp3], 'x');  axis tight;
 
 
 

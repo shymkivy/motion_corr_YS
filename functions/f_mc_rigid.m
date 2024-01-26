@@ -11,7 +11,7 @@ if ~isfield(params, 'high_val_cut_per_frame'); params.high_val_cut_per_frame = 1
 if ~isfield(params, 'save_all_steps'); params.save_all_steps = 0; end
 if ~isfield(params, 'save_dir'); params.save_dir = ''; end
 if ~isfield(params, 'plot_stuff'); params.plot_stuff = 0; end
-
+save_dur = 10000;
 
 if ~isfield(params, 'save_fname')
     temp_time = clock;
@@ -34,9 +34,11 @@ plot_stuff = params.plot_stuff;
 T = size(Y,3);
 
 num_sm_std = size(smooth_std,1);
-num_reg_lambda = size(reg_lambda,1);
+num_reg_lambda = numel(reg_lambda);
 
 dsall = cell(num_iterations,1);
+corr_all = cell(num_iterations,1);
+corr_all_z = cell(num_iterations,1);
 Y_reg = Y;
 
 if save_all_steps
@@ -50,7 +52,7 @@ if high_val_cut_thresh > 0
 
     if save_all_steps
         temp_fname = sprintf('%s_high_val_cut.h5',save_fname);
-        f_save_mov_YS(Y_reg(:,:,1:min(20000,T)), [save_dir '\' temp_fname], '/mov');
+        f_save_mov_YS(Y_reg(:,:,1:min(save_dur,T)), [save_dir '\' temp_fname], '/mov');
     end
 end  
 
@@ -65,7 +67,7 @@ for n_iter = 1:num_iterations
     %% smooth movie
     
     smooth_std1 = smooth_std(min(n_iter, num_sm_std),:);
-    reg_lambda1 = reg_lambda(min(n_iter, num_reg_lambda),:);
+    reg_lambda1 = reg_lambda(min(n_iter, num_reg_lambda));
     
     if sum(smooth_std1>0)
         tic;
@@ -79,11 +81,13 @@ for n_iter = 1:num_iterations
     %%
     if save_all_steps
         temp_fname = sprintf('%s_sm_iter%d.h5',save_fname, n_iter);
-        f_save_mov_YS(Y_sm, [save_dir '\' temp_fname], '/mov');
+        f_save_mov_YS(Y_sm(:,:,1:min(save_dur,T)), [save_dir '\' temp_fname], '/mov');
     end
     %%
     tic;
-    [dsall{n_iter}] = f_suite2p_reg_compute(Y_sm, [], reg_lambda1);
+    [dsall{n_iter}, ~, ops1] = f_suite2p_reg_compute(Y_sm, [], reg_lambda1);
+    corr_all{n_iter} = ops1{1}.CorrFrame;
+    corr_all_z{n_iter} = ops1{1}.Corr_z;
     fprintf('compute duration=%.1fsec; ', toc);
     clear Y_sm;
     
@@ -94,10 +98,12 @@ for n_iter = 1:num_iterations
 
     if save_all_steps
         temp_fname_reg = sprintf('%s_reg_iter%d.h5',save_fname, n_iter);
-        f_save_mov_YS(Y_reg, [save_dir '\' temp_fname_reg], '/mov');
+        f_save_mov_YS(Y_reg(:,:,1:min(save_dur,T)), [save_dir '\' temp_fname_reg], '/mov');
     end
 end
 mc_out.dsall = dsall;
+mc_out.corr_all = corr_all;
+mc_out.corr_all_z = corr_all_z;
 mc_out.out_frame = mean(Y_reg,3);
 
 mc_out.params = params;

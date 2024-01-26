@@ -1,4 +1,4 @@
-function [dsall1, dsall1_all, dsall1_all_mf] = f_mc_dsall_proc(cuts_data)
+function [dsall1, dsall1_all] = f_mc_dsall_proc(cuts_data, do_medfilt)
 
 num_planes = numel(cuts_data);
 
@@ -8,7 +8,9 @@ for n_pl = 1:num_planes
 end
 dsall1_all = median(cat(3,dsall1{:}),3);
 
-dsall1_all_mf = medfilt1(dsall1_all, 3);
+if do_medfilt
+    dsall1_all = medfilt1(dsall1_all, 3);
+end
 
 
 end

@@ -32,28 +32,30 @@ pwd2 = fileparts(matlab.desktop.editor.getActiveFilename);
 addpath([pwd2 '\functions']);
 
 % %%
-% data_dir = {'H:\data\AC\2021\',...
+% load_dir = {'H:\data\AC\2021\',...
 %             'H:\data\AC\2022\'};
 %          
-load_dir = {'H:\data\AC\2021'};...
+load_dir = {'D:\data\AC\2p\2020'};...
             %'I:\mouse\auditory\2018'};
 
-%data_dir = {'G:\data\Auditory\2018'};
+%load_dir = {'G:\data\Auditory\2018'};
 
-% data_dir = {'F:\AC_data\'};
+% load_dir = {'F:\AC_data\'};
 
-save_dir = {'F:\AC_data\caiman_data_echo\'};%,...
-%save_dir = {'F:\AC_data\caiman_data_missmatch\'};%,...
+%save_dir = {'F:\AC_data\caiman_data_echo\'};%,...
+save_dir = {'F:\AC_data\caiman_data_missmatch\'};%,...
 %save_dir = {'F:\AC_data\caiman_data_dream\'};
 
 params.dset_table_fpath = 'C:\Users\ys2605\Desktop\stuff\AC_2p_analysis\AC_data_list_all.xlsx';
 
 params.limit.dset_name =        '';
-params.limit.experiment =       'echo';
-params.limit.mouse_id =         'M4372';
+params.limit.experiment =       'missmatch';
+params.limit.mouse_id =         'M10';
 params.limit.mouse_tag =        '';
 params.limit.dset_name =        '';
 params.limit.FOV_num =          1;
+
+params.save_all_steps = 1;
 
 %%
 AC_data = f_s0_parse_tab_data(params);
@@ -91,14 +93,14 @@ for n_ms = 1:numel(mouse_id_all)
         
         fold_name = sprintf('%s_%s_%s', AC_data2.mouse_id{n_dset}, AC_data2.mouse_tag{n_dset}, AC_data2.experiment{n_dset});
         
-        if isstring(data_dir)
-            data_dir = {data_dir};
+        if isstring(load_dir)
+            load_dir = {load_dir};
         end
         
-        fold_exist = false(numel(data_dir),1);
-        for n_data_dir = 1:numel(data_dir)
-            data_dir2 = data_dir{n_data_dir};
-            if exist([data_dir2 '\' fold_name], 'dir')
+        fold_exist = false(numel(load_dir),1);
+        for n_data_dir = 1:numel(load_dir)
+            load_dir2 = load_dir{n_data_dir};
+            if exist([load_dir2 '\' fold_name], 'dir')
                 fold_exist(n_data_dir) = 1;
             end
         end
@@ -107,7 +109,7 @@ for n_ms = 1:numel(mouse_id_all)
             do_s0 = 0;
             warning(['Data directory does not exist: ' fold_name])
         else
-            params.data_dir = [data_dir{fold_exist} '\' fold_name];
+            params.load_dir = [load_dir{fold_exist} '\' fold_name];
         end
         
         if do_s0

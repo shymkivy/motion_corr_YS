@@ -1,4 +1,4 @@
-function [dsall, input_frame, ops1] = f_suite2p_reg_compute_cpu(data, input_frame, reg_lambda)
+function [dsall, input_frame, ops1] = f_suite2p_reg_compute_cpu(data, input_frame, ops)
 
 %% register Y
 
@@ -10,6 +10,10 @@ addpath([suite2p_matlab_path '\utils']);
 
 [d1, d2, T] = size(data);
 
+if ~exist('ops', 'var')
+    ops = struct;
+end
+
 ops.splitFOV = [1 1];
 ops.NiterPrealign = 20;
 ops.kriging = 1; % subpix align??
@@ -18,12 +22,6 @@ ops.planesToProcess = 1;
 ops.alignAcrossPlanes = 0;
 ops.nplanes = 1;
 ops.smooth_time_space = [0 0 0];
-
-if exist('reg_lambda', 'var')
-    ops.regLambda = reg_lambda;
-else
-    ops.regLambda = [0 0];
-end
 
 [Ly, Lx, T] = size(data);
 ops.Ly = Ly;
@@ -49,6 +47,7 @@ end
 
 ops1{1,1}.DS          = [];
 ops1{1,1}.CorrFrame   = [];
+ops1{1,1}.Corr_z      = [];
 ops1{1,1}.mimg1       = zeros(ops1{1,1}.Ly, ops1{1,1}.Lx);
 ops1{1}.Nframes(1) = 0;
 

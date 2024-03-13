@@ -28,8 +28,11 @@ if strcmpi(ext,'.h5') || strcmpi(ext,'.hdf5')
         delete(file)
         disp(['Replacing previous file ' file]);
     end
-    h5create(file, h5tag, size(data), 'Datatype', 'uint16');
-    h5write(file,h5tag,uint16(data));
+    if ~sum(strcmpi(class(data), {'int16', 'uint16'}))
+        data = uint16(data);
+    end
+    h5create(file, h5tag, size(data), 'Datatype', class(data));
+    h5write(file,h5tag,data);
 end
 
 

@@ -19,6 +19,8 @@ if ~isfield(params, 'save_fname')
     params.save_fname = ['movie_save_' tag1];
 end
 
+type1 = class(Y);
+
 num_iterations = params.num_iterations;
 smooth_std = params.smooth_std;
 reg_lambda = params.reg_lambda;
@@ -93,7 +95,10 @@ for n_iter = 1:num_iterations
     
     %%
     tic;
-    Y_reg = uint16(f_suite2p_reg_apply(Y_reg, dsall{n_iter}));
+    Y_reg = f_suite2p_reg_apply(Y_reg, dsall{n_iter});
+
+    Y_reg = f_set_dtype(Y_reg, type1);
+
     fprintf('apply durration=%.1fsec\n', toc);
 
     if save_all_steps

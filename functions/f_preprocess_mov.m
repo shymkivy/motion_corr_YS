@@ -87,7 +87,17 @@ if params.moco_rigid_method == 1 % regular multiplane
                               0.5 0.5 0.5];
 
     params_moco.reg_lambda = [1, 2];
-                          
+
+elseif params.moco_rigid_method == 12 % regular multiplane
+    params_moco.num_iterations = 4;
+    
+    params_moco.smooth_std = [0.5 0.5 6;...
+                              0.5 0.5 3;... % was 3 for missmatch
+                              0.5 0.5 1;...
+                              0.5 0.5 0.5];
+
+    params_moco.reg_lambda = [1, 2];
+
 elseif params.moco_rigid_method == 2 % regular missmatch 30 hz
     
     params_moco.num_iterations = 5; % 4 was for mmn data works with 30hz noisy data
@@ -323,66 +333,70 @@ if ~isfield(params, 'load_fname')
     end
 end
 
-[~, ~, ext1] = fileparts(params.load_fname);
+[Y, params] = f_load_mov(params);
 
-load_path = [params.load_dir '\' params.load_fname];
-if ~numel(ext1)
-    if exist(load_path, 'dir') % is a directory
-        load_type = 1; 
-    else
-        error('provide correct file name, with extension, or directory')
-    end
-else
-    if sum(strcmpi(ext1, {'.h5', '.hdf5'}))
-        load_type = 3; 
-    elseif sum(strcmpi(ext1, {'.tif', '.tiff'}))
-        load_type = 2; 
-    else
-        error('Only accepts tiff, tif, h5, hdf5 or directory with tifs')
-    end
-end
+mov_type = class(Y{1});
 
-
-% load types
-% 1 = Prairie tiffs
-% 2 = tiff stack (needs file name)
-% 3 = h5 stack (needs file name)
-
-Y = cell(num_planes,1);
-
-if load_type == 1
-    use_mpl_tags = 0;
-    if num_planes > 1
-        if params.use_prairie_mpl_tags
-            use_mpl_tags = 1;
-        end
-    end
-    if use_mpl_tags
-        for n_pl = 1:num_planes
-            Y{n_pl} = f_collect_prairie_tiffs4(load_path, params.mpl_tags{n_pl});
-        end
-    else
-        Y_full = f_collect_prairie_tiffs4(load_path, params.prairie_chan_tag);
-    end
-elseif load_type == 2
-    Y_full = bigread3(load_path, 1);
-elseif load_type == 3
-    Y_full = h5read(load_path, params.h5_movie_tag);
-end
-
-if num_planes > 1
-    last_time = size(Y_full,3);
-    params.ave_trace_full = squeeze(mean(mean(Y_full, 1),2));
-    figure; plot(params.ave_trace_full);
-    title('Full ave trace');
-    for n_pl = 1:num_planes
-        ind_mpl = n_pl:num_planes:last_time;
-        Y{n_pl} = Y_full(:,:,ind_mpl);
-    end
-else
-    Y{1} = Y_full;
-end
-clear Y_full;
+% [~, ~, ext1] = fileparts(params.load_fname);
+% 
+% load_path = [params.load_dir '\' params.load_fname];
+% if ~numel(ext1)
+%     if exist(load_path, 'dir') % is a directory
+%         load_type = 1; 
+%     else
+%         error('provide correct file name, with extension, or directory')
+%     end
+% else
+%     if sum(strcmpi(ext1, {'.h5', '.hdf5'}))
+%         load_type = 3; 
+%     elseif sum(strcmpi(ext1, {'.tif', '.tiff'}))
+%         load_type = 2; 
+%     else
+%         error('Only accepts tiff, tif, h5, hdf5 or directory with tifs')
+%     end
+% end
+% 
+% 
+% % load types
+% % 1 = Prairie tiffs
+% % 2 = tiff stack (needs file name)
+% % 3 = h5 stack (needs file name)
+% 
+% Y = cell(num_planes,1);
+% 
+% if load_type == 1
+%     use_mpl_tags = 0;
+%     if num_planes > 1
+%         if params.use_prairie_mpl_tags
+%             use_mpl_tags = 1;
+%         end
+%     end
+%     if use_mpl_tags
+%         for n_pl = 1:num_planes
+%             Y{n_pl} = f_collect_prairie_tiffs4(load_path, params.mpl_tags{n_pl});
+%         end
+%     else
+%         Y_full = f_collect_prairie_tiffs4(load_path, params.prairie_chan_tag);
+%     end
+% elseif load_type == 2
+%     Y_full = bigread3(load_path, 1);
+% elseif load_type == 3
+%     Y_full = h5read(load_path, params.h5_movie_tag);
+% end
+% 
+% if num_planes > 1
+%     last_time = size(Y_full,3);
+%     params.ave_trace_full = squeeze(mean(mean(Y_full, 1),2));
+%     figure; plot(params.ave_trace_full);
+%     title('Full ave trace');
+%     for n_pl = 1:num_planes
+%         ind_mpl = n_pl:num_planes:last_time;
+%         Y{n_pl} = Y_full(:,:,ind_mpl);
+%     end
+% else
+%     Y{1} = Y_full;
+% end
+% clear Y_full;
 
 
 %% compute cuts
@@ -526,7 +540,8 @@ if do_moco
     
     %Y2 = Y_pre_moco;
     for n_pl = 1:num_planes
-        Y{n_pl} = uint16(f_suite2p_reg_apply(Y{n_pl}, dsall1_use));
+        Y{n_pl} = f_suite2p_reg_apply(Y{n_pl}, dsall1_use);
+        Y{n_pl} = f_set_dtype(Y{n_pl}, mov_type);
         %Y2{n_pl} = uint16(f_suite2p_reg_apply(Y_pre_moco{n_pl}, dsall1_all_r));
     end
     
@@ -555,8 +570,11 @@ if do_moco
     
     dsall1_use2 = ones(size(dsall1_use));
     for n_pl = 1:num_planes
-        Y{n_pl} = uint16(f_suite2p_reg_apply(Y{n_pl}, dsall1_use2.*ds_base_all(n_pl, :)));
-        %Y2{n_pl} = uint16(f_suite2p_reg_apply(Y_pre_moco{n_pl}, dsall1_all_r));
+        if sum(ds_base_all(n_pl, :))
+            Y{n_pl} = f_suite2p_reg_apply(Y{n_pl}, dsall1_use2.*ds_base_all(n_pl, :));
+            Y{n_pl} = f_set_dtype(Y{n_pl}, mov_type);
+            %Y2{n_pl} = uint16(f_suite2p_reg_apply(Y_pre_moco{n_pl}, dsall1_all_r));
+        end
     end
      
     if params.moco_zero_edge
@@ -569,6 +587,7 @@ if do_moco
     if save_all_steps
         for n_pl = 1:num_planes
             f_save_mov_YS(Y{n_pl}(:,:,1:min(save_frames, size(Y{n_pl},3))), [save_dir_movie '\' save_fname cuts_data{n_pl}.title_tag proc_steps '.h5'], '/mov')
+            f_save_tif_stack2_YS(Y{n_pl}(:,:,1:min(save_frames, size(Y{n_pl},3))), [save_dir_movie '\' save_fname cuts_data{n_pl}.title_tag proc_steps '.tif'])
         end
     end
     
@@ -591,7 +610,7 @@ if do_moco
         proc_steps = [proc_steps '_nonrigid'];
         if 1%save_all_steps
             for n_pl = 1:num_planes
-                f_save_mov_YS(Y{n_pl}(:,:,1:min(save_frames, size(Y{n_pl},3))), [save_dir_movie '\' save_fname cuts_data{n_pl}.title_tag proc_steps '.h5'], '/mov')
+                f_save_mov_YS(Y{n_pl}(:,:,1:min(save_frames, size(Y{n_pl},3))), [save_dir_movie '\' save_fname cuts_data{n_pl}.title_tag proc_steps '.h5'], '/mov');
             end
         end
     end

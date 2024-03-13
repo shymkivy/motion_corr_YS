@@ -134,7 +134,7 @@ for bi = 1:nBatches
     idxy = floor(ly/2)+1+[-lcorr:lcorr];
     cc0 = corrClip(idxy, idxx,:);
     %.*pen_mask;      % added penalty mask for long movements YS
-    pen_mask2 = pen_mask_full(idxx, idxy);
+    pen_mask2 = pen_mask_full(idxy, idxx);
     
     cc0_reg = cc0.*pen_mask2;
 

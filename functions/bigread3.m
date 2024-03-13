@@ -1,4 +1,4 @@
-function imData=bigread3(path_to_file,sframe,num2read)
+function imData=bigread3(path_to_file,sframe,num2read, form)
 %reads tiff files in Matlab bigger than 4GB, allows reading from sframe to sframe+num2read-1 frames of the tiff - in other words, you can read page 200-300 without rading in from page 1.
 %based on a partial solution posted on Matlab Central (http://www.mathworks.com/matlabcentral/answers/108021-matlab-only-opens-first-frame-of-multi-page-tiff-stack)
 %Darcy Peterka 2014, v1.0
@@ -43,8 +43,10 @@ if strcmpi(ext,'.tiff') || strcmpi(ext,'.tif')
     if nargin<2
         sframe = 1;
     end
-    if nargin<3
+    if ~exist('num2read', 'var') || isempty(num2read)
         num2read=numFrames-sframe+1;
+    else
+        numFrames = min(numFrames, numFrames-sframe+1);
     end
     if sframe<=0
         sframe=1;
@@ -71,14 +73,16 @@ if strcmpi(ext,'.tiff') || strcmpi(ext,'.tif')
     bd=info.BitDepth;
     he=info.ByteOrder;
     bo=strcmp(he,'big-endian');
-    if (bd==64)
-        form='uint64';
-    elseif(bd==32)
-        form='uint32';
-    elseif (bd==16)
-        form='uint16';
-    elseif (bd==8)
-        form='uint8';
+    if ~exist('form', 'var') || isempty(form)
+        if (bd==64)
+            form='uint64';
+        elseif(bd==32)
+            form='uint32';
+        elseif (bd==16)
+            form='uint16';
+        elseif (bd==8)
+            form='uint8';
+        end
     end
 
 

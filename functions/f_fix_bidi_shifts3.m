@@ -10,6 +10,7 @@ if ~isfield(params, 'do_interp'); params.do_interp = 1; end
 if ~isfield(params, 'normalize'); params.normalize = 1; end
 
 if ~isfield(params, 'laser_open_frac')
+    % this is the fraction of full sine period of res galvo that microscope uses
     % prairie version 5
     params.laser_open_frac = .65;%.797; % measured 51us up 13us down (says 63 total)28.8; % 14.4
 end

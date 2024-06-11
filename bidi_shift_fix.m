@@ -5,17 +5,13 @@ if ~exist('data', 'var')
     data = bigread3(folder_path, 1);
 end
 
-
 data = h5read(folder_path,'/mov');
-
 
 [Ly, Lx, NT] = size(data);
 n_frames = NT;
 
 
 [data2, bidi_phase2] = f_bidi_shift(data, NT, 1);
-
-
 
 
 [path, name, ~] = fileparts(folder_path);

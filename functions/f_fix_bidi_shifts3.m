@@ -1,5 +1,5 @@
 function [Y_bidi, bidi_out] = f_fix_bidi_shifts3(Y, params)
-
+% Y should be whole movie (d1 * d2 * T)
 if ~exist('params', 'var'); params = struct(); end
 if ~isfield(params, 'fix_range'); params.fix_range = -20:20; end
 if ~isfield(params, 'smooth_std'); params.smooth_std = [0 0.5 2]; end

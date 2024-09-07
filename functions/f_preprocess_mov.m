@@ -75,6 +75,7 @@ if ~isfield(params_moco, 'plot_stuff'); params_moco.plot_stuff = 0; end
 
 %params_moco.image_target = [];
 
+params_moco.suite2P_matlab_path = params.suite2P_matlab_path;
 params_moco.im_target_fname = [params.im_target_fname];
 
 % descriptions of different moco methods

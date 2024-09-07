@@ -35,7 +35,7 @@ addpath([pwd2 '\functions']);
 % load_dir = {'H:\data\AC\2021\',...
 %             'H:\data\AC\2022\'};
 %          
-load_dir = {'D:\data\AC\2p\2020'};...
+load_dir = {'F:\AC_data\'};...
             %'I:\mouse\auditory\2018'};
 
 %load_dir = {'G:\data\Auditory\2018'};
@@ -43,17 +43,18 @@ load_dir = {'D:\data\AC\2p\2020'};...
 % load_dir = {'F:\AC_data\'};
 
 %save_dir = {'F:\AC_data\caiman_data_echo\'};%,...
-save_dir = {'F:\AC_data\caiman_data_missmatch\'};%,...
+save_dir = {'F:\AC_data\caiman_data_echo\'};%,...
 %save_dir = {'F:\AC_data\caiman_data_dream\'};
 
 params.dset_table_fpath = 'C:\Users\ys2605\Desktop\stuff\AC_2p_analysis\AC_data_list_all.xlsx';
+params.suite2P_matlab_path = 'C:\Users\ys2605\Desktop\stuff\libs\Suite2P_matlab';
 
 params.limit.dset_name =        '';
-params.limit.experiment =       'missmatch';
-params.limit.mouse_id =         'M10';
+params.limit.experiment =       'echo';
+params.limit.mouse_id =         'M4264';
 params.limit.mouse_tag =        '';
 params.limit.dset_name =        '';
-params.limit.FOV_num =          1;
+params.limit.FOV_num =          2;
 
 params.save_all_steps = 1;
 

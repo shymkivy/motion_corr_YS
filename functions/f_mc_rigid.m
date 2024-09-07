@@ -19,6 +19,13 @@ if ~isfield(params, 'save_fname')
     params.save_fname = ['movie_save_' tag1];
 end
 
+suite2p_matlab_path = params.suite2P_matlab_path;
+%suite2p_matlab_path = 'C:\Users\ys2605\Desktop\stuff\libs\Suite2P_matlab';
+addpath(suite2p_matlab_path);
+addpath([suite2p_matlab_path '\preRegistration']);
+addpath([suite2p_matlab_path '\registration']);
+addpath([suite2p_matlab_path '\utils']);
+
 type1 = class(Y);
 
 num_iterations = params.num_iterations;

@@ -28,7 +28,6 @@ else
     end
 end
 
-
 Y = cell(num_planes,1);
 
 if load_type == 1
@@ -52,13 +51,15 @@ elseif load_type == 3
 end
 
 if num_planes > 1
-    last_time = size(Y_full,3);
-    params.ave_trace_full = squeeze(mean(mean(Y_full, 1),2));
-    figure; plot(params.ave_trace_full);
-    title('Full ave trace');
-    for n_pl = 1:num_planes
-        ind_mpl = n_pl:num_planes:last_time;
-        Y{n_pl} = Y_full(:,:,ind_mpl);
+    if ~use_mpl_tags
+        last_time = size(Y_full,3);
+        params.ave_trace_full = squeeze(mean(mean(Y_full, 1),2));
+        figure; plot(params.ave_trace_full);
+        title('Full ave trace');
+        for n_pl = 1:num_planes
+            ind_mpl = n_pl:num_planes:last_time;
+            Y{n_pl} = Y_full(:,:,ind_mpl);
+        end
     end
 else
     Y{1} = Y_full;

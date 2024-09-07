@@ -17,7 +17,7 @@ if ~isempty(dir_names)
     Y = zeros([dim, T], 'uint16');
 
     % load
-    hh = waitbar(0, sprintf('Loading Prairie tiffs; %s', tag2));
+    hh = waitbar(0, sprintf('Loading Prairie tiffs; %s', strrep(tag2,'_',' ')));
     for n_frame = 1:T
         Y(:,:,n_frame) = imread([load_stack, '\', dir_names(n_frame).name], 'tif');
         waitbar((n_frame)/T, hh);

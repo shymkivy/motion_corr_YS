@@ -2,11 +2,11 @@ function dreg = f_suite2p_reg_apply(data, dsall)
 
 %% register Y
 
-suite2p_matlab_path = 'C:\Users\ys2605\Desktop\stuff\Suite2P_matlab';
-addpath(suite2p_matlab_path);
-addpath([suite2p_matlab_path '\preRegistration']);
-addpath([suite2p_matlab_path '\registration']);
-addpath([suite2p_matlab_path '\utils']);
+% suite2p_matlab_path = 'C:\Users\ys2605\Desktop\stuff\libs\Suite2P_matlab';
+% addpath(suite2p_matlab_path);
+% addpath([suite2p_matlab_path '\preRegistration']);
+% addpath([suite2p_matlab_path '\registration']);
+% addpath([suite2p_matlab_path '\utils']);
 
 [d1, d2, T] = size(data);
 

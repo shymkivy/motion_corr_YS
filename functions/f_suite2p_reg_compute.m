@@ -2,11 +2,11 @@ function [dsall, input_frame, ops1] = f_suite2p_reg_compute(data, input_frame, r
 
 %% register Y
 
-suite2p_matlab_path = 'C:\Users\ys2605\Desktop\stuff\Suite2P_matlab';
-addpath(suite2p_matlab_path);
-addpath([suite2p_matlab_path '\preRegistration']);
-addpath([suite2p_matlab_path '\registration']);
-addpath([suite2p_matlab_path '\utils']);
+% suite2p_matlab_path = 'C:\Users\ys2605\Desktop\stuff\libs\Suite2P_matlab';
+% addpath(suite2p_matlab_path);
+% addpath([suite2p_matlab_path '\preRegistration']);
+% addpath([suite2p_matlab_path '\registration']);
+% addpath([suite2p_matlab_path '\utils']);
 
 [d1, d2, T] = size(data);
 
@@ -29,7 +29,7 @@ end
 ops.Ly = Ly;
 ops.Lx = Lx;
 
-[xFOVs, yFOVs] = get_xyFOVs(ops);
+%[xFOVs, yFOVs] = get_xyFOVs(ops);
 
 ops1 = cell(1, 1);
 ops1{1} = ops;

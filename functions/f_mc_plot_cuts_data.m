@@ -23,6 +23,7 @@ for n_pl = 1:num_planes
         sp_all{n_it} = subplot(num_it+1, 1, n_it);
         plot(cuts_data{n_pl}.dsall{n_it});
         axis tight;
+        ylabel(sprintf('iter %d', n_it));
     end
     sp_all{num_it + 1} = subplot(num_it+1, 1, num_it+1);
     plot(sum(cat(3,cuts_data{n_pl}.dsall{:}),3));
@@ -46,6 +47,7 @@ for n_pl = 1:num_planes
     plot(dsall1{n_pl}(:,2), 'color', colors1(n_pl,:));
 end
 plot(dsall1_all(:,2), 'k');
+ylabel('x motion');
 sp3 = subplot(3,1,3); hold on;
 if ~isempty(cuts_data{1}.corr_all_z{end})
     plot(cuts_data{1}.corr_all_z{end}, 'k');
@@ -57,8 +59,5 @@ end
 %plot(dsall1_all_mf(:,2), 'g');
 
 linkaxes([sp1 sp2 sp3], 'x');  axis tight;
-
-
-
 
 end

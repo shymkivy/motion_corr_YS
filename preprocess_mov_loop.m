@@ -51,12 +51,12 @@ params.suite2P_matlab_path = 'C:\Users\ys2605\Desktop\stuff\libs\Suite2P_matlab'
 
 params.limit.dset_name =        '';
 params.limit.experiment =       'echo';
-params.limit.mouse_id =         'M4264';
+params.limit.mouse_id =         'M4265';
 params.limit.mouse_tag =        '';
 params.limit.dset_name =        '';
-params.limit.FOV_num =          2;
+params.limit.FOV_num =          1;
 
-params.save_all_steps = 1;
+params.save_all_steps = 0;
 
 %%
 AC_data = f_s0_parse_tab_data(params);
@@ -115,7 +115,7 @@ for n_ms = 1:numel(mouse_id_all)
         
         if do_s0
             cdset = AC_data2(n_dset,:);
-            params.fname = sprintf('%s_im%d_%s_%s', cdset.mouse_id{1}, cdset.im_num, cdset.dset_name{1}, cdset.mouse_tag{1});
+            params.save_fname = sprintf('%s_im%d_%s_%s', cdset.mouse_id{1}, cdset.im_num, cdset.dset_name{1}, cdset.mouse_tag{1});
 
             % check it output already exists
             num_match = 0;
@@ -124,7 +124,7 @@ for n_ms = 1:numel(mouse_id_all)
                     dir_list = dir([save_dir{n_dir} '\movies\*.h5']);
                     dir_names = {dir_list.name};
                     for n_file = 1:numel(dir_names)
-                        pat1 = strfind(dir_names{n_file}, params.fname);
+                        pat1 = strfind(dir_names{n_file}, params.save_fname);
                         if ~isempty(pat1)
                             num_match = num_match + 1;
                         end
@@ -134,7 +134,7 @@ for n_ms = 1:numel(mouse_id_all)
                 dir_list = dir([save_dir{n_dir} '\movies\*.h5']);
                 dir_names = {dir_list.name};
                 for n_file = 1:numel(dir_names)
-                    pat1 = strfind(dir_names{n_file}, params.fname);
+                    pat1 = strfind(dir_names{n_file}, params.save_fname);
                     if ~isempty(pat1)
                         num_match = num_match + 1;
                     end
@@ -171,7 +171,7 @@ for n_ms = 1:numel(mouse_id_all)
                 end
                 f_preprocess_mov(params);
             else
-                fprintf('%s already exists, moving on...\n', params.fname)
+                fprintf('%s already exists, moving on...\n', params.save_fname)
             end
 
         end

@@ -5,7 +5,15 @@ siz = size(Y);
 smooth_std1 = smooth_std;
 siz1 = siz;
 
-Y = single(Y);
+conv_type = 0;
+if isa(Y, 'uint8')
+    conv_type = 1;
+elseif isa(Y, 'uint16')
+    conv_type = 2;
+end
+if conv_type
+    Y = single(Y);
+end
 for n_sm = 1:3
     if smooth_std1(1)>0
         % make kernel
@@ -29,6 +37,10 @@ for n_sm = 1:3
     siz1 = siz1([2 3 1]);
     Y = permute(Y, [2 3 1]);
 end
-Y = uint16(Y);
+if conv_type == 1
+    Y = uint8(Y);
+elseif conv_type == 2
+    Y = uint16(Y);
+end
 
 end

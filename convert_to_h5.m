@@ -23,3 +23,11 @@ for n_pl = 1:numel(Y)
     f_save_mov_YS(Y{n_pl}(:,:,1:min([T, max_frames])), sprintf('%s\\%s_pl%d.h5', params.load_dir, save_fname, n_pl), '/mov');
 end
 
+% if 0 % save in parts to check
+%     num_frames = size(Y{1},3);
+%     part_size = 30000;
+%     intervals = 1:part_size:num_frames;
+%     for n_int = 1:numel(intervals)
+%         f_save_mov_YS(Y{1}(:,:,intervals(n_int):min(intervals(n_int)+part_size-1, num_frames)), [params.save_dir_movie '\' params.save_fname  '_pt' num2str(n_int) '.h5'], '/mov');
+%     end
+% end

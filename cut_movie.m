@@ -1,10 +1,10 @@
-addpath('C:\Users\ys2605\Desktop\stuff\AC_2p_analysis\general_functions');
+addpath('C:\Users\ys2605\Desktop\stuff\motion_corr_YS\functions');
 
-fpath =  'F:\AC_data\caiman_data_missmatch\movies\';
-fname = 'M10_im1_A2_ammn1_5_31_20_cut.h5';
+fpath =  'F:\AC_data\caiman_data_echo\movies\';
+fname = 'M4264_im8_A1_4cont8_9_5_24_mpl5_pl3.h5';
 
-start = 5000;
-dur = 1000;
+start = 20000;
+dur = 10000;
 
 [~, fname2, ext] = fileparts(fname);
 

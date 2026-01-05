@@ -10,7 +10,6 @@ if ~exist(filepath, 'dir')
     mkdir(filepath)
 end
 
-
 if strcmpi(ext,'.bin')
     ops.RegFile = fullfile(file);
     fid = fopen(ops.RegFile, 'w');
@@ -32,7 +31,8 @@ if strcmpi(ext,'.h5') || strcmpi(ext,'.hdf5')
         data = uint16(data);
     end
     h5create(file, h5tag, size(data), 'Datatype', class(data));
-    h5write(file,h5tag,data);
+    h5write(file, h5tag, data);
+    h5writeatt(file, h5tag, 'element_size_um', [1 1 1]);
 end
 
 

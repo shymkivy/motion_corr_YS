@@ -5,7 +5,7 @@ pwd2 = fileparts(matlab.desktop.editor.getActiveFilename);
 addpath(genpath([pwd2 '\functions']));
 
 %%
-fpath = 'F:\VR\data_proc\L\preprocessing\L_10_21_25_h5cutsdata.mat';
+fpath = 'F:\VR\data_proc\L\preprocessing\L_10_22_25_h5cutsdata.mat';
 
 data_load = load(fpath);
 

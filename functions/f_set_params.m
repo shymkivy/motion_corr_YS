@@ -18,7 +18,7 @@ if ~isfield(params, 'h5_movie_tag'); params.h5_movie_tag = '/mov'; end
 % saving
 if ~isfield(params, 'save_all_steps'); params.save_all_steps = 0; end                       % during save
 if ~isfield(params, 'save_all_steps_frames'); params.save_all_steps_frames = 10000; end                         % number of frames to save in all steps movies
-if ~isfield(params, 'save_in_parts'); params.save_in_parts = 1; end                         % also save same movie in smaller parts to be able to load with imagej
+if ~isfield(params, 'save_in_parts'); params.save_in_parts = 0; end                         % also save same movie in smaller parts to be able to load with imagej
 if ~isfield(params, 'save_in_parts_size'); params.save_in_parts_size = 30000; end           % num frames per part
 if ~isfield(params, 'save_indiv_h5info'); params.save_indiv_h5info = 1; end                 % during save
 if ~isfield(params, 'moco_rigid_method'); params.moco_rigid_method = 1; end                 % which moco rigid method to use

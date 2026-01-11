@@ -24,18 +24,18 @@ addpath(genpath([pwd2 '\functions']));
 %%
 
 mouse_tag = 'L';
-date_tag = '10_28_25';
+date_tag = '11_19_25';
 
 %params.load_dir = 'F:\VR\10_28_25\L';  % 
 params.load_dir = ['D:\VR\', date_tag, '\', mouse_tag];
-params.save_dir = ['F:\VR\data_proc\', mouse_tag];
+params.save_dir = ['D:\VR\data_proc\', mouse_tag];
 
 params.load_fname = [mouse_tag, '-001'];  % can be a dir if is a Prairie list of tiffs
-params.save_fname = [mouse_tag, '_', date_tag, '_cut'];
+params.save_fname = [mouse_tag, '_', date_tag];
 
 params.im_target_fname = ''; % cuts mat file with target for moco, string or cell of strings, or *_h5cutsdata.mat file
 
-params.align_pulse_crop_method = 1;         % 0=no cuts; 1=auto; 2=manual
+params.align_pulse_crop_method = 1;         % use LED pulses to synchronize ca imaging and voltage recordings 0=not used cuts; 1=auto; 2=manual
 params.do_moco = 1;
 params.do_bidi = 0;
 
